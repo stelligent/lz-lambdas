@@ -53,6 +53,9 @@ class EC2(object):
             if e.response['Error']['Code'] == 'OptInRequired':
                 self.logger.info("Caught exception 'OptInRequired', handling the exception...")
                 return {"Error": "OptInRequired"}
+            elif e.response['Error']['Code'] == 'AuthFailure':
+                self.logger.info("Ignoring AuthFailure for the new region(s)")
+                return {"Error": "OptInRequired"}
             else:
                 message = {'FILE': __file__.split('/')[-1], 'CLASS': self.__class__.__name__,
                            'METHOD': inspect.stack()[0][3], 'EXCEPTION': str(e)}
